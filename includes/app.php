@@ -1,11 +1,11 @@
 <?php 
 
-use Dotenv\Dotenv;
+use Dotenv\Dotenv as Dot;
 use Model\ActiveRecord;
 require __DIR__ . '/../vendor/autoload.php';
 
 // Añadir Dotenv
-$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv = Dot::createImmutable(__DIR__);
 $dotenv->safeLoad();
 
 require 'funciones.php';
