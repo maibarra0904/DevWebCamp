@@ -46,3 +46,30 @@
     gap: $espaciado;
     grid-template-columns: repeat($columnas, 1fr);
 }
+
+@mixin contenedor {
+    max-width: 120rem;
+    width: 95%;
+    width: min($numbers: 95%, 120rem);
+    margin: 0 auto;
+}
+
+@mixin contenedor-sm {
+    width: min($numbers: 95%, 60rem);
+    margin: 0 auto;
+}
+
+
+@mixin heading {
+    font-family: v.$fuente_principal;
+    font-weight: v.$black;
+    margin: 2rem 0;
+
+}
+
+@mixin nombre-pagina {
+    @include headings;
+    margin: 6rem;
+    text-align: center;
+    
+}
