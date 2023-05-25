@@ -2,19 +2,15 @@
 
 
 .auth {
-    @include m.contenedor;
-
+    //text-align: center;
+    @include m.contenedor-sm;
     &__heading {
-        @include m.contenedor-sm;
-        &__heading {
-            @include m.pagina;
-        }
+        @include m.nombre-pagina;
     }
-    
 }
-
 
 
 .auth__texto {
     font-size: 2rem;
+    text-align: center;
 }
