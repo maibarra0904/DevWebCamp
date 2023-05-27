@@ -115,6 +115,10 @@
         &[href*="https://github.com/"]::before {
             content: "\f09b";
         }
+
+        &[href*="https://www.linkedin.com/"]::before {
+            content: "\f08c";
+        }
     }
 
     &__ocultar {

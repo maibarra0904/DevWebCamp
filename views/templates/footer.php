@@ -21,6 +21,9 @@
             <a class="menu-redes__enlace" rel="noopener noreferrer" target="_blank" href="https://github.com/maibarra0904">
                 <span class="menu-redes__ocultar">Github</span>
             </a>
+            <a class="menu-redes__enlace" rel="noopener noreferrer" target="_blank" href="https://www.linkedin.com/in/mario-ibarra-martinez">
+                <span class="menu-redes__ocultar">Linkedin</span>
+            </a>
         </nav>
 
     </div>
