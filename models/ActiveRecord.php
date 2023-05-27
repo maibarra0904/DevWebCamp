@@ -97,7 +97,9 @@ class ActiveRecord {
         $resultado = '';
         if(!is_null($this->id)) {
             // actualizar
+            //debuguear('OK');
             $resultado = $this->actualizar();
+
         } else {
             // Creando un nuevo registro
             $resultado = $this->crear();
@@ -145,7 +147,7 @@ class ActiveRecord {
         $query .= join("', '", array_values($atributos));
         $query .= " ') ";
 
-        // debuguear($query); // Descomentar si no te funciona algo
+        //debuguear($query); // Descomentar si no te funciona algo
 
         // Resultado de la consulta
         $resultado = self::$db->query($query);

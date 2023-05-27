@@ -33,6 +33,13 @@ class AuthController {
                         $_SESSION['apellido'] = $usuario->apellido;
                         $_SESSION['email'] = $usuario->email;
                         $_SESSION['admin'] = $usuario->admin ?? null;
+
+                        //Redireccion
+                        if($usuario->admin) {
+                            header('Location: /admin/dashboard');
+                        } else {
+                            header('Location: /finalizar-registro');
+                        }
                         
                     } else {
                         Usuario::setAlerta('error', 'Password Incorrecto');
@@ -78,6 +85,8 @@ class AuthController {
                 } else {
                     // Hashear el password
                     $usuario->hashPassword();
+
+                    //debuguear($usuario);
 
                     // Eliminar password2
                     unset($usuario->password2);
@@ -190,7 +199,7 @@ class AuthController {
 
                 // Redireccionar
                 if($resultado) {
-                    header('Location: /');
+                    header('Location: /login');
                 }
             }
         }
@@ -214,7 +223,11 @@ class AuthController {
 
     public static function confirmar(Router $router) {
         
+        //debuguear($_GET);
+
         $token = s($_GET['token']);
+
+        
 
         if(!$token) header('Location: /');
 
