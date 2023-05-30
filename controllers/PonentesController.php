@@ -8,8 +8,12 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class PonentesController {
     public static function index(Router $router) {
+
+        $ponentes = Ponente::all();
+
         $router->render('admin/ponentes/index', [
             'titulo' => 'Ponentes/Conferencistas',
+            'ponentes' => $ponentes
         ]);
        
     }
@@ -36,10 +40,26 @@ class PonentesController {
                 $_POST['imagen'] = $nombre_imagen;
             }
 
+            $_POST['redes'] = json_encode($_POST['redes'], JSON_UNESCAPED_SLASHES);
+
             $ponente->sincronizar($_POST);
 
             // Validar
             $alertas = $ponente->validar();
+
+            //Guardar registro
+            if(empty($alertas)) {
+                //Guardar las imagenes
+                $imagen_png->save($carpeta_imagenes . '/' . $nombre_imagen . ".png");
+                $imagen_webp->save($carpeta_imagenes . '/' . $nombre_imagen . ".webp");
+
+                //Guardar en la BD
+                $resultado = $ponente->guardar();
+
+                if($resultado) {
+                    header('Location: /admin/ponentes');
+                }
+            }
 
             
         }
@@ -48,6 +68,32 @@ class PonentesController {
             'titulo' => 'Registrar Ponente',
             'alertas' => $alertas,
             'ponente' => $ponente
+        ]);
+       
+    }
+
+    public static function editar(Router $router) {
+        $alertas = [];
+
+        $id = $_GET['id'];
+        $id = filter_var($id, FILTER_VALIDATE_INT);
+
+        if(!$id) {
+            header('Location: /admin/ponentes');
+        }
+
+        $ponente = Ponente::find($id);
+
+        if(!$ponente) {
+            header('Location: /admin/ponentes');
+        }
+
+        $ponente->imagen_actual = $ponente->imagen;
+
+        $router->render('admin/ponentes/editar', [
+            'titulo' => 'Actualizar Ponente',
+            'alertas' => $alertas,
+            'ponente' => $ponente ?? null,
         ]);
        
     }
