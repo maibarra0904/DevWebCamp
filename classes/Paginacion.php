@@ -13,4 +13,23 @@ class Paginacion {
         $this->$registros_por_pagina = (int) $registros_por_pagina;
         $this->$total_registros = (int) $total_registros;
     }
+
+    public function offset($registros_por_pagina) {
+        return $registros_por_pagina * ($this->pagina_actual - 1);
+    }
+
+    public function total_paginas($registros_por_pagina):int {
+        return ceil($this->total_registros / $registros_por_pagina);
+    }
+
+    public function pagina_anterior() {
+        $anterior = $this->pagina_actual - 1;
+        return ($anterior > 0 ) ? $anterior : false;
+    }
+
+    public function pagina_siguiente($total, $registros_por_pagina) {
+        $siguiente = $this->pagina_actual + 1;
+        return $siguiente <= ceil($total / $registros_por_pagina) ? $siguiente : false;
+        //return $registros_por_pagina;
+    }
 }
