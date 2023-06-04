@@ -157,7 +157,7 @@ class ActiveRecord {
         //echo $query;
 
         $resultado = self::consultarSQL($query);
-        return array_shift( $resultado ) ;
+        return  $resultado ;
     }
 
     //Traer un total de registros
