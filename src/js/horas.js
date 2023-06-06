@@ -18,9 +18,21 @@
         }
 
         if(!Object.values(busqueda).includes('')) {
-            buscarEventos();
+            
+            (async () => {
+                await buscarEventos();
 
-            //Resaltar la hora actual
+                const id = inputHiddenHora.value;
+                //Resaltar la hora actual
+                const horaSeleccionada = document.querySelector(`[data-hora-id="${id}"]`);
+
+                console.log(horaSeleccionada);
+
+                horaSeleccionada.classList.remove('horas__hora--deshabilitada');
+                horaSeleccionada.classList.add('horas__hora--seleccionada');
+
+                horaSeleccionada.onclick = seleccionarHora;
+            })();
             
         }
 
