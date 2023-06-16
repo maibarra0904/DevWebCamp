@@ -4,7 +4,7 @@
 
             <?php if(!is_auth()) { ?>
             
-                <a href="<?php echo is_admin() ? '/admin/dashboard' : '/finalizar-registro'; ?>" class="header__enlace">Registro</a>
+                <a href="<?php echo is_admin() ? '/admin/dashboard' : '/registro'; ?>" class="header__enlace">Registro</a>
                 <a href="/login" class="header__enlace">Iniciar Sesión</a>
             <?php } else { ?>
                 <a href="/registro" class="header__enlace">Administrar</a>
