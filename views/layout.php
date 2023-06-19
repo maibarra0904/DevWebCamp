@@ -12,6 +12,7 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="/build/css/app.css">
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin="" defer></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=ARvYjn4DiAJu6gNawzrsAzlCc_94Sc5_ohlIjXV3QsSrh07gAsGH_-xOyq6BnYWdNo9Qr1Wibg9o-iHW&currency=USD"></script>
 </head>
 <body>
     <?php 
@@ -28,3 +29,4 @@
     <script src="/build/js/main.min.js" defer></script>
 </body>
 </html>
+

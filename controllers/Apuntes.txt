@@ -1,0 +1,16 @@
+business
+
+Email: sb-grtoi2620279@business.example.com
+
+Password: 7@)_lW!3
+
+Client Id: ARvYjn4DiAJu6gNawzrsAzlCc_94Sc5_ohlIjXV3QsSrh07gAsGH_-xOyq6BnYWdNo9Qr1Wibg9o-iHW
+
+Secret key 1: EASBH4fSZNtCb9N-AemT5u1V9yN1wzXv_g1vH-dHiarCfLXSvD2dsVWBfxHE2qyEWoESd-4iIGqVmL27
+
+Personal
+
+
+Email: sb-usl43b2612305@personal.example.com
+
+Password: 7O)9v.T1
