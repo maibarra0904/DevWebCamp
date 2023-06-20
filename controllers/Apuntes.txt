@@ -10,7 +10,6 @@ Secret key 1: EASBH4fSZNtCb9N-AemT5u1V9yN1wzXv_g1vH-dHiarCfLXSvD2dsVWBfxHE2qyEWo
 
 Personal
 
-
 Email: sb-usl43b2612305@personal.example.com
 
 Password: 7O)9v.T1

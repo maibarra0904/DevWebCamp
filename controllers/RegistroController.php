@@ -2,10 +2,15 @@
 
 namespace Controllers;
 
-use Model\Paquete;
-use Model\Registro;
-use Model\Usuario;
+use Model\Dia;
+use Model\Hora;
 use MVC\Router;
+use Model\Evento;
+use Model\Paquete;
+use Model\Ponente;
+use Model\Usuario;
+use Model\Registro;
+use Model\Categoria;
 
 class RegistroController {
     public static function crear(Router $router) {
@@ -61,6 +66,38 @@ class RegistroController {
        
     }
 
+    public static function pagar(Router $router) {
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if(!is_auth()) {
+                header('Location: /login');
+            }
+
+            //Validar que POST no venga vacío
+            if(empty($_POST)) {
+                echo json_encode([]);
+                return;
+            }
+            
+            //Crear registro
+
+            $datos = $_POST;
+            $datos['token'] = substr( md5( uniqid(rand(), true)), 0 , 8 );
+            $datos['usuario_id'] = $_SESSION['id'];
+
+            try {
+                $registro = new Registro($datos);
+                $resultado = $registro->guardar();
+                echo json_encode($resultado);
+            } catch (\Throwable $th) {
+                echo json_encode([
+                    'resultado' => 'error'
+                ]);
+            }
+        }
+       
+    }
+
     public static function boleto(Router $router) {
         
         $id = $_GET['id'];
@@ -86,6 +123,55 @@ class RegistroController {
         $router->render('registro/boleto', [
             'titulo' => 'Asistencia a DevWebCamp',
             'registro' => $registro
+        ]);
+       
+    }
+
+    public static function conferencias(Router $router) {
+        
+        if(!is_auth()){
+            header('Location: /login');
+        }
+
+        //Validar que el usuario tenga el plan presencial
+        $usuario_id = $_SESSION['id'];
+        $registro = Registro::where('usuario_id', $usuario_id);
+
+        if($registro->paquete_id !== "1") {
+            header('Location: /');
+        }
+
+        $eventos = Evento::ordenar('hora_id', 'ASC');
+        //debuguear($eventos);
+        $eventos_formateados = [];
+
+        foreach($eventos as $evento) {
+
+            $evento->categoria = Categoria::find($evento->categoria_id);
+            $evento->dia = Dia::find($evento->dia_id);
+            $evento->hora = Hora::find($evento->hora_id);
+            $evento->ponente = Ponente::find($evento->ponente_id);
+
+            if($evento->dia_id === '1' && $evento->categoria_id === '1') {
+                $eventos_formateados['conferencias_v'][] = $evento;
+            }
+
+            if($evento->dia_id === '2' && $evento->categoria_id === '1') {
+                $eventos_formateados['conferencias_s'][] = $evento;
+            }
+
+            if($evento->dia_id === '1' && $evento->categoria_id === '2') {
+                $eventos_formateados['workshops_v'][] = $evento;
+            }
+
+            if($evento->dia_id === '2' && $evento->categoria_id === '2') {
+                $eventos_formateados['workshops_s'][] = $evento;
+            }
+        }
+
+        $router->render('registro/conferencias', [
+            'titulo' => 'Elige WorkShops y Conferencias',
+            'eventos' => $eventos_formateados
         ]);
        
     }
