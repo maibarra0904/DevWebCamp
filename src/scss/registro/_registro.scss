@@ -46,7 +46,7 @@
 
 .registro {
     color: v.$black;
-    background-color: v.$azul;
+    background-color: v.$blanco;
     padding: 3rem;
     border-radius: 1rem;
     @include m.tablet {
@@ -66,12 +66,12 @@
         align-items: center;
         padding: 1rem;
         &:nth-child(even) {
-            background-color: lighten($color: v.$azul, $amount: 3);
+            background-color: lighten($color: v.$gris, $amount: 1);
         }
     }
 
     &__nombre {
-        color: v.$blanco;
+        color: v.$azul;
         font-size: 2rem;
         font-weight: v.$bold;
         margin: 0;
@@ -83,6 +83,10 @@
         &:hover {
             cursor: pointer;
         }
+    }
+
+    &__texto {
+        text-align: center;
     }
 
     &__regalo {

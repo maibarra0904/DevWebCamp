@@ -1593,7 +1593,7 @@ h3 {
 
 .registro {
   color: 900;
-  background-color: #007df4;
+  background-color: #FFFFFF;
   padding: 3rem;
   border-radius: 1rem;
 }
@@ -1615,10 +1615,10 @@ h3 {
   padding: 1rem;
 }
 .registro__evento:nth-child(even) {
-  background-color: #0485ff;
+  background-color: #66768e;
 }
 .registro__nombre {
-  color: #FFFFFF;
+  color: #007df4;
   font-size: 2rem;
   font-weight: 700;
   margin: 0;
@@ -1629,6 +1629,9 @@ h3 {
 }
 .registro__eliminar:hover {
   cursor: pointer;
+}
+.registro__texto {
+  text-align: center;
 }
 .registro__regalo {
   margin-top: 3rem;
