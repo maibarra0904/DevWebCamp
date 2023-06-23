@@ -116,6 +116,20 @@ import Swal from "sweetalert2";
 
             const resultado = await respuesta.json()
 
+            if(resultado.resultado) {
+                Swal.fire(
+                    'Registro Exitoso',
+                    'Se han almacenado tus conferencias, te esperamos en DevWebCamp',
+                    'success'
+                ).then(() => location.href = `/boleto?id=${resultado.token}`)
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Hubo un error',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then(() => location.reload());
+            }
 
         }
 

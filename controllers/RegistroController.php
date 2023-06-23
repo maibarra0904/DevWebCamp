@@ -6,12 +6,13 @@ use Model\Dia;
 use Model\Hora;
 use MVC\Router;
 use Model\Evento;
+use Model\Regalo;
 use Model\Paquete;
 use Model\Ponente;
 use Model\Usuario;
 use Model\Registro;
 use Model\Categoria;
-use Model\Regalo;
+use Model\EventosRegistros;
 
 class RegistroController {
     public static function crear(Router $router) {
@@ -23,8 +24,15 @@ class RegistroController {
         //Verificar si el usuario ya está registrado
         $registro = Registro::where('usuario_id', $_SESSION['id']);
 
-        if(isset($registro) && $registro->paquete_id === 3) {
+        //debuguear($registro);
+        if(isset($registro) && $registro->paquete_id === "3") {
             header('Location: /boleto?id=' . urlencode($registro->token));
+            return;
+        }
+
+        if(isset($registro) && $registro->paquete_id === "1") {
+            header('Location: finalizar-registro/conferencias');
+            return;
         }
 
         $router->render('registro/crear', [
@@ -38,13 +46,15 @@ class RegistroController {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             if(!is_auth()) {
                 header('Location: /login');
+                return;
             }
 
             //Verificar si el usuario ya está registrado
             $registro = Registro::where('usuario_id', $_SESSION['id']);
 
-            if(isset($registro) && $registro->paquete_id === 3) {
+            if(isset($registro) && $registro->paquete_id === "3") {
                 header('Location: /boleto?id=' . urlencode($registro->token));
+                return;
             }
 
             $token = substr( md5( uniqid(rand(), true)), 0 , 8 );
@@ -62,6 +72,7 @@ class RegistroController {
 
             if($resultado) {
                 header('Location: /boleto?id=' . urlencode($registro->token));
+                return;
             }
         }
        
@@ -72,6 +83,7 @@ class RegistroController {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             if(!is_auth()) {
                 header('Location: /login');
+                return;
             }
 
             //Validar que POST no venga vacío
@@ -112,6 +124,7 @@ class RegistroController {
 
         if(!$registro) {
             header('Location: /');
+            return;
         }
 
         //Llenar las tablas de referencia
@@ -132,15 +145,28 @@ class RegistroController {
         
         if(!is_auth()){
             header('Location: /login');
+            return;
         }
 
         //Validar que el usuario tenga el plan presencial
         $usuario_id = $_SESSION['id'];
         $registro = Registro::where('usuario_id', $usuario_id);
 
+        if(!isset($registro) && $registro->paquete_id === "2") {
+            header('Location: /boleto?id=' . urlencode($registro->token));
+            return;
+        }
+
         if($registro->paquete_id !== "1") {
             header('Location: /');
+            return;
         }
+
+        //Redirección a boleto virtual en caso de haber finalizado su registro
+        if(isset($registro->regalo_id) && $registro->paquete_id !== "1") {
+            header('Location: /boleto?id=' . urlencode($registro->token));
+            return;
+        };
 
         $eventos = Evento::ordenar('hora_id', 'ASC');
         //debuguear($eventos);
@@ -176,6 +202,7 @@ class RegistroController {
             //Revisar que el usuario este autenticado
             if(!is_auth()){
                 header('Location: /login');
+                return;
             }
             //debuguear($_POST);
             $eventos = explode(',', $_POST['eventos']);
@@ -212,7 +239,30 @@ class RegistroController {
                 $evento->guardar();
 
                 //Almacenar el registro
+                $datos = [
+                    'evento_id' => $evento->id,
+                    'registro_id' => $registro->id
+                ];
                 
+                $registro_usuario = new EventosRegistros($datos);
+
+                $registro_usuario->guardar();
+
+                //Almacenar el regalo
+                $registro->sincronizar(['regalo_id' => $_POST['regalo_id']]);
+                $resultado = $registro->guardar();
+
+                if($resultado) {
+                    echo json_encode([
+                        'resultado' => $resultado, 
+                        'token' => $registro->token
+                    ]);
+                    return;
+                } else {
+                    echo json_encode(['resultado' => false]);
+                }
+
+                return;
             }
 
         }

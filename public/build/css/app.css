@@ -1615,7 +1615,7 @@ h3 {
   padding: 1rem;
 }
 .registro__evento:nth-child(even) {
-  background-color: #66768e;
+  background-color: rgb(255, 244, 180);
 }
 .registro__nombre {
   color: #007df4;
